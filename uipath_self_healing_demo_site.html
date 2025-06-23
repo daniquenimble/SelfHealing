@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeHunt - Demo Portaal</title>
+  <style>
+    :root {
+      --primary-color: #3B82F6;
+      --background-color: #F3F4F6;
+      --card-background: #FFFFFF;
+      --text-color: #111827;
+      --border-radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+      background-color: #2563EB;
+      padding: 1rem 2rem;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav button.active {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 2rem;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .card {
+      background-color: var(--card-background);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 2rem;
+    }
+
+    .log {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #E0F2FE;
+      border: 1px solid #bae6fd;
+      height: 150px;
+      overflow-y: auto;
+      font-family: monospace;
+      border-radius: var(--border-radius);
+    }
+
+    .button, .fav-button {
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      margin: 0.5rem 0;
+    }
+
+    .house-listing {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      background: white;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .house-img {
+      width: 120px;
+      height: 90px;
+      background-color: #ddd;
+      border-radius: var(--border-radius);
+      object-fit: cover;
+    }
+
+    .house-info { flex: 1; }
+    .house-title { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HomeHunt - Huisbezichtigingsportaal</h1>
+    <div id="favoriteContainer">
+      <button id="favoritesBtn" class="fav-button">❤ Favorieten</button>
+    </div>
+  </header>
+
+  <nav>
+    <button class="tab active" data-tab="dashboard">Woningaanbod</button>
+    <button class="tab" data-tab="favorites">Favorieten</button>
+    <button class="tab" data-tab="healing">Self-Healing Demo</button>
+    <button class="tab" data-tab="support">Support</button>
+  </nav>
+
+  <main>
+    <div id="dashboard" class="page active">
+      <div class="card">
+        <h2>Beschikbare woningen</h2>
+        <div id="listingContainer"></div>
+      </div>
+    </div>
+
+    <div id="favorites" class="page">
+      <div class="card">
+        <h2>Mijn Favorieten</h2>
+        <div id="favoritesList"></div>
+      </div>
+    </div>
+
+    <div id="healing" class="page">
+      <div class="card">
+        <h2>Self-Healing Agent Demo</h2>
+        <button id="simulateChange" class="button">Wissel Favorieten/Opgeslagen</button>
+        <button id="simulateBtnChange" class="button">Verstoor opslaan-knoppen</button>
+        <div class="log" id="logBox"></div>
+      </div>
+    </div>
+
+    <div id="support" class="page">
+      <div class="card">
+        <h2>Support</h2>
+        <p>Hulp nodig bij het plannen van een bezichtiging? Neem contact met ons op.</p>
+        <ul>
+          <li><strong>Email:</strong> support@homehunt.demo</li>
+          <li><strong>Tel:</strong> 088-HUNTING</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const pages = document.querySelectorAll('.page');
+    const favoritesBtn = document.getElementById('favoritesBtn');
+    const simulateChange = document.getElementById('simulateChange');
+    const simulateBtnChange = document.getElementById('simulateBtnChange');
+    const logBox = document.getElementById('logBox');
+    const listingContainer = document.getElementById('listingContainer');
+    const favoritesList = document.getElementById('favoritesList');
+
+    let isFavoritesRenamed = false;
+
+    const woningen = [
+      { id: "1", title: "Laan van Meerdervoort 50 - Den Haag", price: "€420.000 k.k.", image: "https://placehold.co/120x90/png?text=Huis+1" },
+      { id: "2", title: "Zoutkeetsingel 112 - Den Haag", price: "€365.000 k.k.", image: "https://placehold.co/120x90/png?text=Huis+2" },
+      { id: "3", title: "Beeklaan 225 - Den Haag", price: "€495.000 k.k.", image: "https://placehold.co/120x90/png?text=Huis+3" }
+    ];
+
+    function loadWoningen() {
+      listingContainer.innerHTML = '';
+      woningen.forEach(woning => {
+        const favs = getFavorieten();
+        const div = document.createElement('div');
+        div.className = 'house-listing';
+        const isFav = favs.includes(woning.id);
+        div.innerHTML = `
+          <img class="house-img" src="${woning.image}" alt="woning">
+          <div class="house-info">
+            <div class="house-title">${woning.title}</div>
+            <p>${woning.price}</p>
+            <button class="fav-button toggle-fav" data-id="${woning.id}">
+              ${isFav ? '❤️ Opgeslagen' : '💾 Sla op als favoriet'}
+            </button>
+          </div>
+        `;
+        listingContainer.appendChild(div);
+      });
+    }
+
+    function getFavorieten() {
+      return JSON.parse(localStorage.getItem('favorieten') || '[]');
+    }
+
+    function setFavorieten(favs) {
+      localStorage.setItem('favorieten', JSON.stringify(favs));
+    }
+
+    function updateFavorietenPagina() {
+      const favs = getFavorieten();
+      favoritesList.innerHTML = '';
+      woningen.filter(w => favs.includes(w.id)).forEach(woning => {
+        const div = document.createElement('div');
+        div.className = 'house-listing';
+        div.innerHTML = `
+          <img class="house-img" src="${woning.image}" alt="woning">
+          <div class="house-info">
+            <div class="house-title">${woning.title}</div>
+            <p>${woning.price}</p>
+            <button class="fav-button remove-fav" data-id="${woning.id}">🗑 Verwijder</button>
+          </div>
+        `;
+        favoritesList.appendChild(div);
+      });
+    }
+
+    document.addEventListener('click', e => {
+      if (e.target.matches('.toggle-fav')) {
+        const id = e.target.dataset.id;
+        let favs = getFavorieten();
+        if (favs.includes(id)) {
+          favs = favs.filter(f => f !== id);
+          log(`❌ Woning ID ${id} verwijderd uit favorieten`);
+        } else {
+          favs.push(id);
+          log(`🏠 Woning ID ${id} opgeslagen`);
+        }
+        setFavorieten(favs);
+        loadWoningen();
+        updateFavorietenPagina();
+      } else if (e.target.matches('.remove-fav')) {
+        const id = e.target.dataset.id;
+        let favs = getFavorieten().filter(f => f !== id);
+        setFavorieten(favs);
+        loadWoningen();
+        updateFavorietenPagina();
+        log(`❌ Woning ID ${id} verwijderd uit favorieten`);
+      }
+    });
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        pages.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+        if (tab.dataset.tab === 'favorites') updateFavorietenPagina();
+      });
+    });
+
+    favoritesBtn.addEventListener('click', () => {
+      document.querySelector('[data-tab="favorites"]').click();
+    });
+
+    simulateChange.addEventListener('click', () => {
+      isFavoritesRenamed = !isFavoritesRenamed;
+      favoritesBtn.textContent = isFavoritesRenamed ? '📁 Opgeslagen' : '❤ Favorieten';
+      log(`🔧 Bovenste knop is nu: ${favoritesBtn.textContent}`);
+    });
+
+    simulateBtnChange.addEventListener('click', () => {
+      document.querySelectorAll('.toggle-fav').forEach(btn => {
+        if (!btn.textContent.includes('Opgeslagen')) {
+          btn.classList.add('obscured');
+          btn.textContent = '➕ Voeg toe aan favorieten';
+        }
+      });
+      log('🛠 Opslaan-knoppen zijn nu verstoord voor Self-Healing test.');
+    });
+
+    function log(message) {
+      const now = new Date().toLocaleTimeString();
+      logBox.innerHTML += `[${now}] ${message}<br>`;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    loadWoningen();
+    updateFavorietenPagina();
+  </script>
+</body>
+</html>
