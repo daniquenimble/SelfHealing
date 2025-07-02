@@ -6,10 +6,10 @@
   <title>HomeHunt - Demo Portaal</title>
   <style>
     :root {
-      --primary-color: #3B82F6;
-      --background-color: #F3F4F6;
-      --card-background: #FFFFFF;
-      --text-color: #111827;
+      --primary-color: #0F766E;
+      --background-color: #F0FDF4;
+      --card-background: #d6f8e0;
+      --text-color: #0F172A;
       --border-radius: 0.75rem;
     }
 
@@ -33,7 +33,7 @@
     nav {
       display: flex;
       gap: 1rem;
-      background-color: #2563EB;
+      background-color: #0F766E;
       padding: 1rem 2rem;
     }
 
@@ -75,10 +75,23 @@
       border-radius: var(--border-radius);
     }
 
-    .button, .fav-button {
+    
+
+    .button{
       padding: 1rem 1.5rem;
       font-size: 1rem;
-      background-color: var(--primary-color);
+      background-color: #84CC16;
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      margin: 0.5rem 0;
+    }
+
+    .fav-button{
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      background-color: #0F766E;
       color: white;
       border: none;
       border-radius: var(--border-radius);
@@ -172,11 +185,11 @@
     let isFavoritesRenamed = false;
 
     const woningen = [
-      { id: "1", title: "Laan van Meerdervoort 50 - Den Haag", price: "€420.000 k.k.", image: "https://placehold.co/120x90/png?text=Huis+1" },
-      { id: "2", title: "Zoutkeetsingel 112 - Den Haag", price: "€365.000 k.k.", image: "https://placehold.co/120x90/png?text=Huis+2" },
-      { id: "3", title: "Beeklaan 225 - Den Haag", price: "€495.000 k.k.", image: "https://placehold.co/120x90/png?text=Huis+3" }
+      { id: "1", title: "Laan van Meerdervoort 50 - Den Haag", price: "€420.000 k.k.", image: "./images/huis1.jpg" },
+      { id: "2", title: "Zoutkeetsingel 112 - Den Haag", price: "€365.000 k.k.", image: "./images/huis2.jpg" },
+      { id: "3", title: "Beeklaan 225 - Den Haag", price: "€495.000 k.k.", image: "./images/huis3.jpg" }
     ];
-
+  
     function loadWoningen() {
       listingContainer.innerHTML = '';
       woningen.forEach(woning => {
