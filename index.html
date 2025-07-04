@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HomeHunt - Demo Portaal</title>
-  <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HomeHunt - Demo Portaal</title>
+<link href="./images/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
     :root {
       --primary-color: #2E5E4E;
       --background-color: #F2F7F4;
@@ -97,6 +98,8 @@
     }
 
     .button, .fav-button {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
       padding: 1rem 1.5rem;
       font-size: 1rem;
       background-color: var(--button-green);
@@ -130,72 +133,68 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1><img src="./images/HomeHuntLogo.png" alt="HomeHunt Logo" class="logo">HomeHunt</h1>
-    <div id="favoriteContainer">
-      <button id="favoritesBtn" style="background: none; border: none; color: white; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-heart"></i> Favorieten</button>
-    </div>
-  </header>
-
-  <nav>
-    <button class="tab active" data-tab="dashboard">Woningaanbod</button>
-    <button class="tab" data-tab="healing">Demo Panel</button>
-    <button class="tab" data-tab="contact">Contact</button>
-  </nav>
-
-  <main>
-    <section id="dashboard" class="page active">
-      <div class="card">
-        <div class="house-listing">
-          <img src="./images/huis1.jpg" class="house-img" alt="Huis 1">
-          <div class="house-info">
-            <div class="house-title">Laan van Meerdervoort 50 - Den Haag</div>
-            <div>€420.000 k.k.</div>
-            <button class="button fav-toggle" data-id="1"><i class="fa-regular fa-heart"></i> Sla op als favoriet</button>
-          </div>
-        </div>
-        <div class="house-listing">
-          <img src="./images/huis2.jpg" class="house-img" alt="Huis 2">
-          <div class="house-info">
-            <div class="house-title">Zoutkeetsingel 112 - Den Haag</div>
-            <div>€365.000 k.k.</div>
-            <button class="button fav-toggle" data-id="2"><i class="fa-regular fa-heart"></i> Sla op als favoriet</button>
-          </div>
-        </div>
-        <div class="house-listing">
-          <img src="./images/huis3.jpg" class="house-img" alt="Huis 3">
-          <div class="house-info">
-            <div class="house-title">Beeklaan 225 - Den Haag</div>
-            <div>€495.000 k.k.</div>
-            <button class="button fav-toggle" data-id="3"><i class="fa-regular fa-heart"></i> Sla op als favoriet</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="healing" class="page">
-      <div class="card">
-        <h2>Self-Healing Demo</h2>
-        <button class="button" onclick="veranderFavorietTekst()">Verander Favorieten knop</button>
-        <button class="button" onclick="toggleVerstoordeKnoppen()" id="toggleKnoppenBtn">Verander 'Sla op als favoriet' knop</button>
-        <div class="log" id="healingLog">Log komt hier...</div>
-      </div>
-    </section>
-
-    <section id="contact" class="page">
-      <div class="card">
-        <h2>Contact</h2>
-        <p>Deze fictieve site is gemaakt door danique.diks@nimble.expert.</p>
-      </div>
-    </section>
-    <section id="favorites" class="page">
-      <div class="card">
-        <h2>Opgeslagen woningen</h2>
-        <div id="favoritesList"></div>
-      </div>
-    </section>
-  </main>
-  <script>
+<header>
+<h1><img alt="HomeHunt Logo" class="logo" src="./images/HomeHuntLogo.png"/>HomeHunt</h1>
+<div id="favoriteContainer">
+<button id="favoritesBtn" style="background: none; border: none; color: white; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-heart"></i> Favorieten</button>
+</div>
+</header>
+<nav>
+<button class="tab active" data-tab="dashboard">Woningaanbod</button>
+<button class="tab" data-tab="healing">Demo Panel</button>
+<button class="tab" data-tab="contact">Contact</button>
+</nav>
+<main>
+<section class="page active" id="dashboard">
+<div class="card">
+<div class="house-listing">
+<img alt="Huis 1" class="house-img" src="./images/huis1.jpg"/>
+<div class="house-info">
+<div class="house-title">Laan van Meerdervoort 50 - Den Haag</div>
+<div>€420.000 k.k.</div>
+<button class="button fav-toggle" data-id="1"><i class="fa-regular fa-heart"></i> Sla op als favoriet</button>
+</div>
+</div>
+<div class="house-listing">
+<img alt="Huis 2" class="house-img" src="./images/huis2.jpg"/>
+<div class="house-info">
+<div class="house-title">Zoutkeetsingel 112 - Den Haag</div>
+<div>€365.000 k.k.</div>
+<button class="button fav-toggle" data-id="2"><i class="fa-regular fa-heart"></i> Sla op als favoriet</button>
+</div>
+</div>
+<div class="house-listing">
+<img alt="Huis 3" class="house-img" src="./images/huis3.jpg"/>
+<div class="house-info">
+<div class="house-title">Beeklaan 225 - Den Haag</div>
+<div>€495.000 k.k.</div>
+<button class="button fav-toggle" data-id="3"><i class="fa-regular fa-heart"></i> Sla op als favoriet</button>
+</div>
+</div>
+</div>
+</section>
+<section class="page" id="healing">
+<div class="card">
+<h2>Self-Healing Demo</h2>
+<button class="button" onclick="veranderFavorietTekst()">Verander Favorieten knop</button>
+<button class="button" id="toggleKnoppenBtn" onclick="toggleVerstoordeKnoppen()">Verander 'Sla op als favoriet' knop</button>
+<div class="log" id="healingLog">Log komt hier...</div>
+</div>
+</section>
+<section class="page" id="contact">
+<div class="card">
+<h2>Contact</h2>
+<p>Deze fictieve site is gemaakt door danique.diks@nimble.expert.</p>
+</div>
+</section>
+<section class="page" id="favorites">
+<div class="card">
+<h2>Opgeslagen woningen</h2>
+<div id="favoritesList"></div>
+</div>
+</section>
+</main>
+<script>
     const tabs = document.querySelectorAll('.tab');
     const pages = document.querySelectorAll('.page');
 
@@ -256,7 +255,12 @@
         if (favorites.has(id)) {
           const card = btn.closest('.house-listing').cloneNode(true);
           card.querySelector('.fav-toggle').remove();
-          container.appendChild(card);
+          const removeBtn = document.createElement('button');
+removeBtn.className = 'button remove-fav';
+removeBtn.dataset.id = id;
+removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Verwijder uit favorieten';
+card.appendChild(removeBtn);
+container.appendChild(card);
         }
       });
     }
@@ -276,6 +280,27 @@
         updateFavoritesUI();
       });
     });
-  </script>
+  
+
+document.addEventListener('click', function (e) {
+  if (e.target.closest('.remove-fav')) {
+    const id = e.target.closest('.remove-fav').dataset.id;
+    favorites.delete(id);
+    updateFavoritesUI();
+
+    const originalBtn = document.querySelector(`.fav-toggle[data-id="${id}"]`);
+    if (originalBtn) {
+      originalBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Sla op als favoriet';
+      originalBtn.classList.add('button');
+    }
+
+    const log = document.getElementById('healingLog');
+    if (log) {
+      log.textContent += `\nFavoriet verwijderd uit overzicht op ` + new Date().toLocaleTimeString();
+      log.scrollTop = log.scrollHeight;
+    }
+  }
+});
+</script>
 </body>
 </html>
